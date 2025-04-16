@@ -9,10 +9,15 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
   },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  },
   "dependencies": {
     "@prisma/client": "^6.6.0",
     "nuxt": "^3.16.2",
     "prisma": "^6.6.0",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.19.3",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0"
   }
