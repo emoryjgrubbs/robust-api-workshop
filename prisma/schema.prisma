@@ -14,7 +14,7 @@ datasource db {
 }
 
 model User {
-    id          String      @id @default(uuid())
+    id          Int         @id @default(autoincrement())
 
     fName       String
     lName       String
@@ -26,26 +26,27 @@ model User {
 }
 
 model Shopper {
-    id          String      @id
+    id          Int         @id
     User        User        @relation(fields: [id], references: [id])
 
     Orders      Order[]
 }
 
 model Order {
-    sId         String
+    id          Int         @id @default(autoincrement())
+    sId         Int
     Shopper     Shopper     @relation(fields: [sId], references: [id])
 
-    pId         String
+    pId         Int
     Product     Product     @relation(fields: [pId], references: [id])
 
-    @@id([sId, pId])
+    time        DateTime
 
     quantity    Int
 }
 
 model Product {
-    id          String      @id @default(uuid())
+    id          Int         @id @default(autoincrement())
 
     price       Int
 
@@ -53,7 +54,7 @@ model Product {
 }
 
 model Employee {
-    id          String      @id
+    id          Int         @id
     User        User        @relation(fields: [id], references: [id])
 
     dNum        Int
@@ -68,7 +69,7 @@ model Department {
 }
 
 model Shift {
-    eId          String
+    eId         Int
     Employee    Employee    @relation(fields: [eId], references: [id])
 
     day         DateTime
