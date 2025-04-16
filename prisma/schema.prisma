@@ -1,0 +1,85 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "sqlite"
+    url      = "file:dev.db"
+}
+
+model User {
+    id          String      @id @default(uuid())
+
+    fName       String
+    lName       String
+
+    phoneNum    String      @unique
+
+    Shopper     Shopper?
+    Employee    Employee?
+}
+
+model Shopper {
+    id          String      @id
+    User        User        @relation(fields: [id], references: [id])
+
+    Orders      Order[]
+}
+
+model Order {
+    sId         String
+    Shopper     Shopper     @relation(fields: [sId], references: [id])
+
+    pId         String
+    Product     Product     @relation(fields: [pId], references: [id])
+
+    @@id([sId, pId])
+
+    quantity    Int
+}
+
+model Product {
+    id          String      @id @default(uuid())
+
+    price       Int
+
+    Order       Order[]
+}
+
+model Employee {
+    id          String      @id
+    User        User        @relation(fields: [id], references: [id])
+
+    dNum        Int
+    Department  Department  @relation(fields: [dNum], references: [dNum])
+    Shifts      Shift[]
+}
+
+model Department {
+    dNum        Int         @id
+
+    Employees   Employee[]
+}
+
+model Shift {
+    eId          String
+    Employee    Employee    @relation(fields: [eId], references: [id])
+
+    day         DateTime
+
+    shift       TimeSlot
+
+    @@id([eId, day, shift])
+}
+
+enum TimeSlot {
+    MORNING
+    AFTERNOON
+    NIGHT
+}
